@@ -1,0 +1,38 @@
+.main
+{
+	text-align: center;
+    vertical-align: middle;
+/*     padding-top: 25%; */
+	padding: 25% 35%;
+}
+
+.login
+{
+	display: inline-block;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	padding: 10%;
+}
+
+.field
+{
+	padding-bottom: 15%;
+}
+.field input
+{
+	text-align: center;
+	font-weight: 600;
+	width: 200px;
+	height: 35px;
+}
+
+.field input:focus
+{
+	font-weight: 100;
+
+}
+
+.button input
+{
+	width: 150px;
+	height: 30px;
+}
