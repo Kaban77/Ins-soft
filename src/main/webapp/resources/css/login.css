@@ -23,6 +23,7 @@
 	font-weight: 600;
 	width: 200px;
 	height: 35px;
+	background-color: white;
 }
 
 .field input:focus
@@ -35,4 +36,20 @@
 {
 	width: 150px;
 	height: 30px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 12pt;
+}
+
+.remember
+{
+	padding-top: 5%;
+	padding-bottom: 5%;
+	font-family: 'Arimo', sans-serif;
+	font-size: 10pt;
+}
+
+.error
+{
+	color: red;
+	font-family: 'Source Sans Pro';
 }
