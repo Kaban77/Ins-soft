@@ -1,0 +1,98 @@
+label {
+	font-family: 'Open Sans', sans-serif;
+	float:left;
+	padding-right:10px;
+}
+button {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 11pt;
+	padding: 12px;
+	margin-left: 8%;
+	width: 154px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.15);
+}
+
+h3 {
+	font-weight: bold;
+	font-family: 'PT Serif Caption';
+	cursor: default;
+}
+
+.action
+{
+	padding-left: 19%;
+	padding-top: 2%;
+	clear: both;
+}
+
+.date
+{
+	width: 18px;
+	height: 18px;
+	padding: 2px;
+}
+.border
+{
+	padding: 20px;
+}
+
+.field
+{
+	clear: both;
+	text-align: right;
+	line-height:25px;
+	padding: 30px;
+	display: inline-flex;
+}
+.main_input
+{
+	float:left;
+	padding-left: 19%;
+	padding-top: 1%;
+}
+
+.show_result
+{
+	padding-left: 19%;
+	padding-top: 5%;
+}
+
+.show_result table
+{
+	border-collapse: collapse;
+    border: 2px double black;
+    width: 85%;
+}
+
+.show_result td
+{
+	height: 60px;
+	white-space: pre-line;
+	border: 2px double black;
+	text-align: center;
+}
+
+#from_date
+{
+	padding: 3px;
+	width: 100px;
+}
+#to_date
+{
+	padding: 3px;
+	width: 100px;
+}
+#img_find
+{
+	width: 16px; 
+	height: 16px;
+}
+#pol_num
+{
+	padding: 3px;
+	width: 150px;
+}
+#title_journal
+{
+	text-align: center;
+}
