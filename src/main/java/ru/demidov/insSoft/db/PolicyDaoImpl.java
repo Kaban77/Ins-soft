@@ -40,7 +40,7 @@ public class PolicyDaoImpl implements PolicyDao {
 		Date beginDate = null, endDate = null;
 		ArrayList<String> args = new ArrayList<String>();
 
-		args.add("%" + policy.getPolicyNumber().toUpperCase() + "%");
+		args.add("%" + policy.getPolicyNumber().toUpperCase().trim() + "%");
 
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
