@@ -21,16 +21,15 @@ function checkKeyDown (elementId) {
 function sendRequest(method, controller, data, callback) { //отправка запроса на сервер
 	const url = `/insSoft/${controller}`;//формируем URL
 	const request = new XMLHttpRequest();
+	request.contentType = "application/json";
+    	request.setRequestHeader("content-type", "application/text");
+    	request.setRequestHeader("cache-control", "no-cache");
 	
 	if(method === "GET") {
 		request.open(method, url + data, true);
 	}
 	else
 		request.open(method, url, true);
-	
-	request.contentType = "application/json";
-    request.setRequestHeader("content-type", "application/text");
-    request.setRequestHeader("cache-control", "no-cache");
 	
 	if (data !== null && method !== "GET")
         request.send(JSON.stringify(data));
