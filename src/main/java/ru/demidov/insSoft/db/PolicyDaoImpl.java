@@ -34,37 +34,28 @@ public class PolicyDaoImpl implements PolicyDao {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Policy> findPoliciesByParam(Policy policy) {
+	public List<Policy> findPoliciesByParam(PolicyForSearch policy) {
 
 		String sql = "select * from policies.v_policy_info where upper(policy_number) like :policyNumber";
-		Date beginDate = null, endDate = null;
 		ArrayList<String> args = new ArrayList<String>();
 
 		args.add("%" + policy.getPolicyNumber().toUpperCase().trim() + "%");
 
-		try {
-			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-			beginDate = format.parse(policy.getBeginDate());
-			endDate = format.parse(policy.getEndDate());
-
-		} catch (Exception e) {
-		}
-
-		if (beginDate != null) {
+		if (tryParseDate(policy.getStartPeriod()) != false) {
 			sql += " and begin_date >= to_date(:beginDate, 'DD.MM.YYYY')";
-			args.add(policy.getBeginDate());
+			args.add(policy.getStartPeriod());
 		}
 
-		if (endDate != null) {
+		if (tryParseDate(policy.getEndPeriod()) != false) {
 			sql += " and begin_date <= to_date(:endDate, 'DD.MM.YYYY')";
-			args.add(policy.getEndDate());
+			args.add(policy.getEndPeriod());
 		}
 
 		try {
 			return jdbctemplate.query(sql, args.toArray(), new PolicyRowMapper());
 		} catch (Exception e) {
 			logger.info(e.getMessage());
-			return null;
+			return new ArrayList<Policy>();
 		}
 	}
 
@@ -75,7 +66,7 @@ public class PolicyDaoImpl implements PolicyDao {
 		try {
 			return jdbctemplate.queryForObject(sql, new Object[] { policyId }, new PolicyRowMapper());
 		} catch (IncorrectResultSizeDataAccessException dae) {
-			return null;
+			return new Policy();
 		}
 	}
 
@@ -86,7 +77,17 @@ public class PolicyDaoImpl implements PolicyDao {
 		try {
 			return jdbctemplate.queryForObject(sql, new Object[] { policyNumber }, new PolicyRowMapper());
 		} catch (IncorrectResultSizeDataAccessException dae) {
-			return null;
+			return new Policy();
+		}
+	}
+
+	private boolean tryParseDate(String date) {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+			format.parse(date);
+			return true;
+		} catch (ParseException pe) {
+			return false;
 		}
 	}
 
