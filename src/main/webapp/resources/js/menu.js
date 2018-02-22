@@ -1,6 +1,6 @@
 function NewPolicy() {
 	//var params = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes"
-	window.open("policy_page.html", "New Policy"/*, params*/)
+	//window.open("policy_page.html", "New Policy"/*, params*/)
 }
 
 function ClearForm() {
