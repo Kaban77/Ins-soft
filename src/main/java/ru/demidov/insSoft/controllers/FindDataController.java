@@ -34,10 +34,7 @@ public class FindDataController {
 	public List<Policy> getPolicies(@RequestParam(value = "dateFrom", required = false) String dateFrom, @RequestParam(value = "dateTo", required = false) String dateTo,
 			@RequestParam(value = "policyNumber", required = false) String policyNumber) {
 
-		Policy policy = new Policy();
-		policy.setPolicyNumber(policyNumber);
-		policy.setBeginDate(dateFrom);
-		policy.setEndDate(dateTo);
+		PolicyForSearch policy = new PolicyForSearch(policyNumber, dateFrom, dateTo);
 
 		return new PolicyDaoImpl(jdbctemplate).findPoliciesByParam(policy);
 	}
