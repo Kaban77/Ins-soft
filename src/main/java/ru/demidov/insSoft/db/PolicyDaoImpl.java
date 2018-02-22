@@ -62,9 +62,7 @@ public class PolicyDaoImpl implements PolicyDao {
 
 		try {
 			return jdbctemplate.query(sql, args.toArray(), new PolicyRowMapper());
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			logger.info(e.getMessage());
 			return null;
 		}
