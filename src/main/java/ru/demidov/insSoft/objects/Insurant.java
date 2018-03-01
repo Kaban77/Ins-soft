@@ -7,6 +7,7 @@ public class Insurant {
 	private String patronymic;
 	private String birthDate;
 	private String sex;
+	private Document document;
 
 	public Insurant() {
 	}
@@ -64,6 +65,14 @@ public class Insurant {
 
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+
+	public Document getDocument() {
+		return document;
+	}
+
+	public void setDocument(Document document) {
+		this.document = document;
 	}
 
 }
