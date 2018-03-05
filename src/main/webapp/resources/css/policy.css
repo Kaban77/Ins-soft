@@ -48,20 +48,13 @@ button
 	font-size: 11pt;
 }
 
-.line
-{
-	display: block;
-	padding: 10px;
-	line-height: 25px;
-	text-align: justify;
-}
-
-.car
+.area
 {
 	float: left;
+	padding-right: 20px;
 }
 
-.car_field 
+.line 
 {
 	clear: both;
 	text-align: right;
@@ -96,6 +89,13 @@ button
 {
 	float: left;
 	visibility: hidden;
+}
+
+.control_buttons
+{
+	clear: both;
+	padding-left: 4%;
+	padding-top: 4%;
 }
 
 .modal_search
@@ -192,6 +192,63 @@ button
 	background: #e1e1e1;
 }
 
+.buttons
+{
+	text-align: right;
+	padding: 30px;
+}
+
+.modal_create
+{
+	position: fixed;
+	top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 99999;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    display: none;
+    pointer-events: none;
+    font-family: 'Open Sans', sans-serif;
+	font-size: 11pt;
+}
+
+.modal_create:target
+{
+	display: block;
+    pointer-events: auto;
+}
+
+.modal_create > div {
+    width: 750px;
+    height: 600px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.action
+{
+	clear: both;
+	padding: 40px 10px;
+}
+
+.error
+{
+	border-color: red;
+}
+
+#print_error
+{
+	padding-top: 10%;
+	clear: both;
+	color: red;
+}
 
 #license_series
 {
@@ -270,4 +327,15 @@ button
 {
 	width: 120px;
 	height: 23px;
+}
+
+#birth
+{
+	width: 100px;
+}
+
+#save_policy
+{
+	width: 100px;
+	height: 30px;
 }
