@@ -244,3 +244,39 @@ function setBrandList(data) {
 		list.appendChild(option);
 	}
 }
+
+function setBrandId() {
+	var list = document.getElementById("brandList");
+	var brandName = document.getElementById("brand_name").value;
+	
+	for(i = 0; i < list.childNodes.length; i++) {
+		var temp = list.childNodes[i].value;
+		if(brandName === temp) {
+			brandId = list.childNodes[i].id;
+			findModels(brandId);
+			return;
+		}	
+	}
+	document.getElementById("brand_name").value = "";
+	brandId = null;
+}
+
+function findModels(brandId) {
+	var params = "?brandId=" + brandId;
+	
+	sendRequest("GET", "get-models", params, setModelList);
+}
+
+function setModelList(data) {
+	var list = document.getElementById("model_name");
+	
+	while (list.firstChild)
+		list.removeChild(list.firstChild);
+	
+	for(i = 0; i < data.length; i++) {
+		var option = document.createElement("option");
+		option.id = data[i].MODEL_ID;
+		option.innerHTML = data[i].MODEL_NAME;
+		list.appendChild(option);
+	}
+}
