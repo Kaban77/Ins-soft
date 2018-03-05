@@ -72,6 +72,8 @@ function showResult(result) {
 		tr.insertCell(1).innerHTML = "Имя";
 		tr.insertCell(2).innerHTML = "Отчество";
 		tr.insertCell(3).innerHTML = "Дата рождения";
+		tr.insertCell(4).innerHTML = "Серия ВУ";
+		tr.insertCell(5).innerHTML = "Номер ВУ";
 		
 		for(i = 0; i < result.length; i++) {
 			insertRow(table, result[i], i);
@@ -94,6 +96,8 @@ function insertRow(table, row, rowNumber) {
 	tr.insertCell(1).innerHTML = row.name;
 	tr.insertCell(2).innerHTML = row.patronymic;
 	tr.insertCell(3).innerHTML = dateParser(row.birthDate);
+	tr.insertCell(4).innerHTML = row.document.serial;
+	tr.insertCell(5).innerHTML = row.document.number;
 }
 
 function getInurantId() {
@@ -120,7 +124,10 @@ function selectInsurant() {
 		insurantName += document.getElementById(insurantId).childNodes[i].innerHTML + " ";
 	}
 	location.href='#close';
-	document.getElementById("client_name").value = insurantName.trim();	
+	
+	document.getElementById("client_name").value = insurantName.trim();
+	document.getElementById("license_series").value = document.getElementById(insurantId).childNodes[4].innerHTML;
+	document.getElementById("license_number").value = document.getElementById(insurantId).childNodes[5].innerHTML;
 }
 
 function newClient() {
@@ -281,4 +288,42 @@ function setModelList(data) {
 		option.innerHTML = data[i].MODEL_NAME;
 		list.appendChild(option);
 	}
+}
+
+function checkFields() {
+	
+	if(insurantId === null || brandId === null || 
+	   document.getElementById("power").value === null || document.getElementById("year_of_issue").value === null || !checkVin())
+		
+		return false;
+	
+	else 
+		return true;
+	
+}
+
+function savePolicy() {
+	
+	if(/*checkFields() ===*/ true) {
+	
+		var policy = {
+				policyId: policyId,
+				insurantId: insurantId,
+				brandId: brandId,
+				modelName: document.getElementById("model_name").value,
+				yearOfIssue: document.getElementById("year_of_issue").value,
+				vin: document.getElementById("vin").value,
+				registerSign: document.getElementById("car_number").value,
+				enginePower: document.getElementById("power").value
+		};
+		
+		sendRequest("POST", "save-policy", policy, finishSavePolicy);
+	}
+	else
+		alert("Заполите, пожалуйста, все поля!");
+	
+}
+
+function finishSavePolicy() {
+	alert("Полис сохранён успешно!");
 }
