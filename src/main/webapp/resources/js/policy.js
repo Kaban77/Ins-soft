@@ -18,7 +18,7 @@ function clearForm() {
 
 function checkVin() {
 	var vin = document.getElementById("vin").value;
-	var error = document.getElementById("vin_error");
+	var error = document.getElementById("print_error");
 	
 	while (error.firstChild)
 		error.removeChild(error.firstChild);
@@ -28,7 +28,9 @@ function checkVin() {
 		return false;
 	}
 	
-	else if(vin.includes("Q") || vin.includes("O") || vin.includes("I") || vin.match(/[a-z]/g) !== null) {
+	else if(vin.includes("Q") || vin.includes("O") || vin.includes("I") || vin.match(/[a-z]/g) !== null ||
+			vin.match(/[А-Я]/g) !== null || vin.match(/[а-я]/g) !== null) {
+		
 		error.innerHTML = "<span>VIN должен состоять из заглавных латинских букв кроме Q,O,I и цифр!</span>";
 		document.getElementById("vin").value = "";
 				
