@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %> --%>
 
 <html>
 <head>
@@ -13,11 +14,12 @@
 <title>Полис</title>
 </head>
 <body>
+<!-- VIN должен состоять из заглавных латинских букв кроме Q,O,I и цифр! -->
 	<div class = "client_info">
 		<h3>Данные клиента</h3>
 		<div class = "field">
 			<label for="client_name">ФИО клиента</label>
-			<input type="text" id = "client_name">
+			<input type="text" id = "client_name" disabled = "disabled">
 			<button id = "search_client" onclick="location.href='#find_client';">
 				<img src = "<c:url value="/resources/pictures/find.png" />" id = "img_find" style = "width: 18px; height: 18px;"/>
 			</button>
@@ -34,33 +36,41 @@
 	
 	<div class = "transport">
 		<h3>Транспортное средство</h3>
-		<div class = "car">
-			<div class = "car_field">
+		<div class = "area">
+			<div class = "line">
 				<label for = "brand_name">Марка</label>
-				<input type="search" id = "brand_name">
+				<input type="text" id = "brand_name" list = "brandList" onkeypress="findBrands()" onblur="setBrandId()">
+					<datalist id = "brandList">
+					
+					</datalist>
 			</div>
-			<div class = "car_field">
+			<div class = "line">
 				<label for = "model_name">Модель</label>
-				<input type="search" id = "model_name">
+<!-- 				<input type="search" id = "model_name"> -->
+				<select id = "model_name">
+				</select>
 			</div>
-			<div class = "car_field">
+			<div class = "line">
 				<label for = "year_of_issue">Год выпуска</label>
-				<input type="number" id = "year_of_issue">
+				<input type="text" id = "year_of_issue" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode < 31">
 			</div>
 		</div>
-		<div class = "car">
-			<div class = "car_field">
+		<div class = "area">
+			<div class = "line">
 				<label for = "vin">VIN</label>
-				<input type="text" id = "vin">
+				<input type="text" id = "vin" maxlength="17" onblur = "checkVin()">
 			</div>
-			<div class = "car_field">
+			<div class = "line">
 				<label for = "car_number">Гос. номер</label>
 				<input type="text" id = "car_number">
 			</div>
-			<div class = "car_field">
+			<div class = "line">
 				<label for = "power">Мощность двиг-ля, л.с.</label>
-				<input type="number" id = "power">
+				<input type="text" id = "power" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode < 31">
 			</div>
+		</div>
+		<div id = "print_error">
+<!-- 			<span>VIN должен состоять из заглавных латинских букв кроме Q,O,I и цифр!</span> -->
 		</div>
 	</div>
 	<div class = "coefficients">
@@ -94,6 +104,13 @@
 		</div>
 		Премия:
 	</div>
+	
+	<div class = "control_buttons">
+		<button id = "save_policy" onclick="savePolicy()">Сохранить</button>
+	</div>
+	
+	<!-- Modal page for search clients-->
+	
 	<div id = "find_client" class = "modal_search">
 		<div>
 			<a href="#close" title="Закрыть" class="close">X</a>
@@ -120,11 +137,66 @@
 				<h4>Записи отсутствуют</h4>
 			</div>
 			<div class = "buttons">
-				<button>Новый</button>
-				<button>Выбрать</button>
+				<button id = "select" onclick="selectInsurant()" hidden="true">Выбрать</button>
+				<button id = "new_insurant" onclick="newClient()">Новый</button>
 			</div>
 		</div>
+	</div>
 	
+	<!-- Modal page for add info about clients-->
+	
+	<div id = "new_client" class = "modal_create">
+		<div>
+			<a href="#close" title="Закрыть" class="close">X</a>
+			<h3>Справочник</h3>
+			<div class = "area">
+				<h4>Личный данные</h4>
+				<div class = "line">
+					<label for = "surname">Фамилия</label>
+					<input type="text" id = "surname">
+				</div>
+				<div class = "line">
+					<label for = "name">Имя</label>
+					<input type="text" id = "name">
+				</div>
+				<div class = "line">
+					<label for = "patronymic">Отчество</label>
+					<input type="text" id = "patronymic">
+				</div>
+				<div class = "line">
+					<label for = "birth">Дата рождения</label>
+					<input type="text" id = "birth" maxlength="10" placeholder="ДД.ММ.ГГГГ">
+				</div>
+				<div class = "line">
+					<label for = "sex">Пол</label>
+					<select id = "sex">
+						<option>Мужской</option>
+						<option>Женский</option>
+					</select>
+				</div>
+			</div>
+			<div class = "area">
+				<h4>Документы</h4>
+				<div class = "line">
+					<label for = "serial">Серия ВУ</label>
+					<input type="text" id = "serial" maxlength="4">
+				</div>
+				<div class = "line">
+					<label for = "number">Номер ВУ</label>
+					<input type="text" id = "number" maxlength="6">
+				</div>
+				<div class = "line">
+					<label for = "year">Стаж вождения с</label>
+					<input type="text" id = "year" maxlength="10" placeholder="ДД.ММ.ГГГГ">
+				</div>
+			</div>
+			<div class = "action">
+				<button id = "save" type="submit" onclick="saveInsurant()">Сохранить</button>
+				<button id="cancel" onclick="location.href='#find_client';">Отмена</button>
+				<input id = "token" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+				<input id = "header" type="hidden" name="${_csrf.parameterName}" value="${_csrf.headerName}"> 
+			</div>
+		</div>
 	</div>
 </body>
 </html>
