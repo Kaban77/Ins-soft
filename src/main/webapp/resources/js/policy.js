@@ -1,4 +1,6 @@
+var policyId = null;
 var insurantId = null;
+var brandId = null;
 
 function clearForm() {
 	document.getElementById("ins_surname").value = "";
@@ -221,4 +223,24 @@ function finishSaveInsurant(id) {
 	document.getElementById("license_number").value = document.getElementById("number").value;
 	
 	alert("Данные сохранены!");
+}
+
+function findBrands() {
+	var params = "?brand=" + document.getElementById("brand_name").value;
+	
+	sendRequest("GET", "get-brands", params, setBrandList);
+}
+
+function setBrandList(data) {
+	var list = document.getElementById("brandList");
+	
+	while (list.firstChild)
+		list.removeChild(list.firstChild);
+	
+	for(i = 0; i < data.length; i++) {
+		var option = document.createElement("option");
+		option.id = data[i].BRAND_ID;
+		option.innerHTML = data[i].BRAND_NAME;
+		list.appendChild(option);
+	}
 }
