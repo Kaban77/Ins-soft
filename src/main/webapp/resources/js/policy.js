@@ -1,5 +1,6 @@
 var policyId = null;
 var insurantId = null;
+var insurantIdForClick = null;
 var brandId = null;
 
 function clearForm() {
@@ -59,7 +60,6 @@ function showResult(result) {
 		div.removeChild(div.firstChild);
 	}
 	
-	insurantId = null;
 	document.getElementById("select").hidden = true;
 	
 	if(result.length !== 0) {
@@ -102,24 +102,25 @@ function insertRow(table, row, rowNumber) {
 
 function getInurantId() {
 	var oldId = null;
-	if(insurantId !== null)
-		oldId = insurantId;
+	if(insurantIdForClick !== null)
+		oldId = insurantIdForClick;
 	
-	insurantId = this.id;
+	insurantIdForClick = this.id;
 	
-	changeBackground(oldId, insurantId);
+	changeBackground(oldId);
 	document.getElementById("select").hidden = false;
 }
 
-function changeBackground(oldId, newId) {
-	if(oldId !== null) 
+function changeBackground(oldId) {
+	if(document.getElementById(oldId) !== null) 
 		document.getElementById(oldId).style.background = "";
 	
-	document.getElementById(insurantId).style.background = "#77dd9b";
+	document.getElementById(insurantIdForClick).style.background = "#77dd9b";
 }
 
 function selectInsurant() {
 	var insurantName = new String();
+	insurantId = insurantIdForClick;
 	for(i = 0; i < 3; i++) {
 		insurantName += document.getElementById(insurantId).childNodes[i].innerHTML + " ";
 	}
@@ -304,8 +305,12 @@ function checkFields() {
 
 function savePolicy() {
 	
-	if(/*checkFields() ===*/ true) {
-	
+	if(checkFields() === true) {
+		
+		var button = document.getElementById("issue_policy");
+		if(button !== null)
+			button.parentNode.removeChild(button);
+		
 		var policy = {
 				policyId: policyId,
 				insurantId: insurantId,
@@ -324,6 +329,37 @@ function savePolicy() {
 	
 }
 
-function finishSavePolicy() {
-	alert("Полис сохранён успешно!");
+function finishSavePolicy(coefficents) {
+	
+	if(coefficents.premium !== 0) {
+		
+		document.getElementById("tariff").innerHTML = coefficents.tariff;
+		document.getElementById("bonus").innerHTML = coefficents.bonus;
+		document.getElementById("power_coeff").innerHTML = coefficents.power;
+		document.getElementById("season").innerHTML = coefficents.season;
+		document.getElementById("experience").innerHTML = coefficents.ageAndExperience;
+		document.getElementById("period").innerHTML = coefficents.period;
+		document.getElementById("driver_lim").innerHTML = coefficents.driverLimit;
+		document.getElementById("territory").innerHTML = coefficents.territory;
+		document.getElementById("premium").innerHTML = "Премия: " + coefficents.premium;
+		
+		policyId = coefficents.policyId;
+		
+		var button = document.createElement("button");
+		var div = document.getElementById("control_buttons");
+		
+		button.id = "issue_policy";
+		button.onclick = issuePolicy;
+		button.innerHTML = "Офрмить";
+		
+		div.appendChild(button);
+		
+		alert("Полис сохранён успешно!");
+	}
+	else
+		alert("Ошибка при сохранении полиса!");
+}
+
+function issuePolicy() {
+	
 }
