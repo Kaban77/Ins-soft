@@ -77,25 +77,12 @@ button
 
 .coefficients li
 {
-	padding-bottom: 4%;
+/* 	padding-bottom: 4%; */
 }
 
-.coefficients_name
+.coefficients_list
 {
 	float: left;
-}
-
-.coefficients_value
-{
-	float: left;
-	visibility: hidden;
-}
-
-.control_buttons
-{
-	clear: both;
-	padding-left: 4%;
-	padding-top: 4%;
 }
 
 .modal_search
@@ -243,6 +230,13 @@ button
 	border-color: red;
 }
 
+#control_buttons
+{
+	clear: both;
+	padding-left: 4%;
+	padding-top: 4%;
+}
+
 #print_error
 {
 	padding-top: 10%;
@@ -335,6 +329,12 @@ button
 }
 
 #save_policy
+{
+	width: 100px;
+	height: 30px;
+}
+
+#issue_policy
 {
 	width: 100px;
 	height: 30px;
