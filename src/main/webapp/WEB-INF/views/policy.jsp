@@ -14,7 +14,6 @@
 <title>Полис</title>
 </head>
 <body>
-<!-- VIN должен состоять из заглавных латинских букв кроме Q,O,I и цифр! -->
 	<div class = "client_info">
 		<h3>Данные клиента</h3>
 		<div class = "field">
