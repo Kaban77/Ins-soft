@@ -9,6 +9,11 @@
 	<http use-expressions="true">
 		<intercept-url pattern="/menu" access="isAuthenticated()"/>
 		<intercept-url pattern="/get-policies" access="isAuthenticated()"/>
+		<intercept-url pattern="/get-clients" access="isAuthenticated()"/>
+		<intercept-url pattern="/new-policy" access="isAuthenticated()"/>
+		<intercept-url pattern="/save-insurant" access="isAuthenticated()"/>
+		<intercept-url pattern="/save-policy" access="isAuthenticated()"/>
+
 		
 		
 		<form-login login-page="/login"
@@ -19,7 +24,7 @@
 			
 			
 		<logout logout-success-url="/login" />
-<!-- 		<csrf /> -->
+		<csrf disabled="false"/>
 		<remember-me remember-me-parameter="remember_me" />
 	</http>
 	
