@@ -26,11 +26,11 @@
 		</div>
 		<div class = "field">
 			<label for="license_series">Серия ВУ</label>
-			<input type="text" id = "license_series" maxlength="4">
+			<input type="text" id = "license_series" maxlength="4" disabled = "disabled">
 		</div>
 		<div class = "field">
 			<label for = "license_number">Номер ВУ</label>
-			<input type="text" id = "license_number" maxlength="6">
+			<input type="text" id = "license_number" maxlength="6" disabled = "disabled">
 		</div>
 	</div>
 	
@@ -75,7 +75,7 @@
 	</div>
 	<div class = "coefficients">
 		<h3>Коэффициенты</h3>
-		<div class = "coefficients_name">
+		<div class = "coefficients_list">
 			<ul>
 			 <li>ТБ</li>
 			 <li>КБМ</li>
@@ -84,28 +84,28 @@
 			 <li>КВС</li>
 			 <li>КП</li>
 			 <li>КО</li>
-			 <li>КН</li>
-			 <li>КМ</li>
+			 <li>КТ</li>
 			</ul>
 		</div>
 		
-		<div class = "coefficients_value">
+		<div class = "coefficients_list" id = "coeff_values">
 			<ul>
-			 <li>1200</li>
-			 <li>0.5</li>
-			 <li>1</li>
-			 <li>1 </li>
-			 <li>1</li>
-			 <li>1</li>
-			 <li>1</li>
-			 <li>1</li>
-			 <li>2</li>
+			 <li id = "tariff"></li>
+			 <li id = "bonus"></li>
+			 <li id = "power_coeff"></li>
+			 <li id = "season"></li>
+			 <li id = "experience"></li>
+			 <li id = "period"></li>
+			 <li id = "driver_lim"></li>
+			 <li id = "territory"></li>
 			</ul>
 		</div>
-		Премия:
+		<div style="clear: both; font-weight: bold;">
+		<span id = "premium"></span>
+		</div>
 	</div>
 	
-	<div class = "control_buttons">
+	<div id = "control_buttons">
 		<button id = "save_policy" onclick="savePolicy()">Сохранить</button>
 	</div>
 	
