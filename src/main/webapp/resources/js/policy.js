@@ -350,7 +350,7 @@ function finishSavePolicy(coefficents) {
 		
 		button.id = "issue_policy";
 		button.onclick = issuePolicy;
-		button.innerHTML = "Офрмить";
+		button.innerHTML = "Оформить";
 		
 		div.appendChild(button);
 		
@@ -361,5 +361,25 @@ function finishSavePolicy(coefficents) {
 }
 
 function issuePolicy() {
+	if(checkFields() === true) {
+		sendRequest("POST", "issue-policy", policyId, hideItems);
+		
+		alert("Полис оформлен!");
+	}
+	else
+		alert("Заполите, пожалуйста, все поля!");
+}
+
+function hideItems() {
+	var button = document.getElementById("issue_policy");
+	button.parentNode.removeChild(button);
 	
+	document.getElementById("search_client").disabled = "disabled";
+	document.getElementById("brand_name").disabled = "disabled";
+	document.getElementById("model_name").disabled = "disabled";
+	document.getElementById("year_of_issue").disabled = "disabled";
+	document.getElementById("vin").disabled = "disabled";
+	document.getElementById("car_number").disabled = "disabled";
+	document.getElementById("power").disabled = "disabled";
+	document.getElementById("save_policy").disabled = "disabled";
 }
