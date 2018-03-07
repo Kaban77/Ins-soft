@@ -15,4 +15,6 @@ public interface InsertDao {
 
 	Coefficients updatePolicy(PolicyToDB policy);
 
+	boolean issuePolicy(int policyID);
+
 }
