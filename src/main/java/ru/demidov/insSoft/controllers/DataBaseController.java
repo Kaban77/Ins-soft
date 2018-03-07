@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
@@ -93,5 +95,15 @@ public class DataBaseController {
 
 			return new InsertDaoImpl(jdbctemplate).updatePolicy(policy);
 
+	}
+
+	@RequestMapping(value = "/issue-policy", method = RequestMethod.POST, consumes = "application/json")
+	@Transactional(propagation = Propagation.REQUIRED)
+	public ResponseEntity<String> issuePolicy(@RequestBody Integer policyId) {
+
+		if (new InsertDaoImpl(jdbctemplate).issuePolicy(policyId))
+			return new ResponseEntity<String>(HttpStatus.OK);
+		else
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 }
