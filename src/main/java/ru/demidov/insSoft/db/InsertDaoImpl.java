@@ -103,6 +103,7 @@ public class InsertDaoImpl implements InsertDao {
 		try {
 			String updateCar = "update policies.t_policy_car pc set model_id = (select cd.model_id from policies.t_car_directory cd where cd.brand_id = :brandId and cd.model_name = :modelName), pc.year_of_issue = :year, pc.vin = :vin, pc.register_sign = :sign, pc.engine_power = :power where pc.policy_id = :policyId";
 			String updateCoeff = "update policies.t_policy_coefficients set tariff = :tariff, bonus = :bonus, power = :power, season = :season, age_and_experience = :ex, period = :period, driver_limit = :limit, territory = :territory where policy_id = :policyId";
+			String updatePremium = "update policies.t_policy set premium = :premium where policy_id = :policyId";
 
 			if (policy.getInsurantId() != null) {
 				String updateInsurant = "update policies.t_policy set insurant_id = :insurantId where policy_id = :policyId";
@@ -129,10 +130,28 @@ public class InsertDaoImpl implements InsertDao {
 			jdbctemplate.update(updateCoeff, new Object[] { coeff.getTariff(), coeff.getBonus(), coeff.getPower(), coeff.getSeason(), coeff.getAgeAndExperience(), coeff.getPeriod(),
 					coeff.getDriverLimit(), coeff.getTerritory(), coeff.getPolicyId() });
 
+			jdbctemplate.update(updatePremium, new Object[] { coeff.getPremium(), coeff.getPolicyId() });
+
 			return coeff;
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			return new Coefficients();
+		}
+	}
+
+	@Override
+	public boolean issuePolicy(int policyID) {
+		return changeState(policyID, 5);
+	}
+
+	private boolean changeState(int policyId, int state) {
+		try {
+			String sql = "update policies.t_policy set state = :state where policy_id = :policyId";
+			jdbctemplate.update(sql, new Object[] { state, policyId });
+			return true;
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			return false;
 		}
 	}
 }
