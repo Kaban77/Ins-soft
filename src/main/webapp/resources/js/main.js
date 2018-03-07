@@ -30,8 +30,13 @@ function sendRequest(method, controller, data, callback) { //отправка з
 			
 		if (request.status >= 200 && request.status < 300) {
 				if (callback !== undefined && callback !== null) {
-					const result = JSON.parse(request.responseText);
-					callback(result);
+					try {
+						const result = JSON.parse(request.responseText);
+						callback(result);
+					}
+					catch(e) {
+						callback();
+					}
 				}
 		} else {
 			console.log(`${request.status}: ${request.statusText}`);
