@@ -3,6 +3,18 @@ var insurantId = null;
 var insurantIdForClick = null;
 var brandId = null;
 
+window.onload = function() {
+	policyId = window.location.search.replace( "?policyId=", "");
+	
+	if(policyId === "") {
+		policyId = null;
+		return;
+	}
+		
+	let list = document.getElementById("brandList");
+	findModels(list.childNodes[1].id);
+};
+
 function clearForm() {
 	document.getElementById("ins_surname").value = "";
 	document.getElementById("ins_name").value = "";
@@ -18,8 +30,8 @@ function clearForm() {
 }
 
 function checkVin() {
-	var vin = document.getElementById("vin").value;
-	var error = document.getElementById("print_error");
+	let vin = document.getElementById("vin").value;
+	let error = document.getElementById("print_error");
 	
 	while (error.firstChild)
 		error.removeChild(error.firstChild);
@@ -29,60 +41,56 @@ function checkVin() {
 		return false;
 	}
 	
-	else if(vin.includes("Q") || vin.includes("O") || vin.includes("I") || vin.match(/[a-z]/g) !== null ||
-			vin.match(/[А-Я]/g) !== null || vin.match(/[а-я]/g) !== null) {
+	if(vin.includes("Q") || vin.includes("O") || vin.includes("I") || vin.match(/[a-z]/g) !== null ||
+	   vin.match(/[А-Я]/g) !== null || vin.match(/[а-я]/g) !== null) {
 		
 		error.innerHTML = "<span>VIN должен состоять из заглавных латинских букв кроме Q,O,I и цифр!</span>";
 		document.getElementById("vin").value = "";
 				
 		return false;
 	}
-	else
-		return true;
+	return true;
 }
 
 function findClient() {
 	
-	var params = new String();
+	const params = "?name=" + encodeURIComponent(document.getElementById("ins_name").value) 
+    	          +"&patronymic=" + encodeURIComponent(document.getElementById("ins_patronymic").value)
+    	          +"&surname=" + encodeURIComponent(document.getElementById("ins_surname").value)
+    	          +"&birthDate=" + encodeURIComponent(document.getElementById("birth_date").value);
 	
-	params = "?name=" + encodeURIComponent(document.getElementById("ins_name").value) 
-    	    +"&patronymic=" + encodeURIComponent(document.getElementById("ins_patronymic").value)
-    	    +"&surname=" + encodeURIComponent(document.getElementById("ins_surname").value)
-    	    +"&birthDate=" + encodeURIComponent(document.getElementById("birth_date").value);
-	
-	sendRequest("GET", "get-clients", params, showResult); 
+	sendRequest("GET", "get-clients", params, showClients); 
 }
 
-function showResult(result) {
+function showClients(result) {
 	
-	var div = document.getElementById("results");
+	let div = document.getElementById("results");
 	while (div.firstChild) {
 		div.removeChild(div.firstChild);
 	}
 	
 	document.getElementById("select").hidden = true;
 	
-	if(result.length !== 0) {
-		var table = document.createElement("table");
-		div.appendChild(table);
-		
-		tr = table.insertRow(0);
-		tr.className = "header";
-		tr.insertCell(0).innerHTML = "Фамилия";
-		tr.insertCell(1).innerHTML = "Имя";
-		tr.insertCell(2).innerHTML = "Отчество";
-		tr.insertCell(3).innerHTML = "Дата рождения";
-		tr.insertCell(4).innerHTML = "Серия ВУ";
-		tr.insertCell(5).innerHTML = "Номер ВУ";
-		
-		for(i = 0; i < result.length; i++) {
-			insertRow(table, result[i], i);
-		}
-	}
-	else {
+	if(result.length === 0) {
 		div.innerHTML = "<h4>Записи отсутствуют</h4>";
+		return;
 	}
+		
+	let table = document.createElement("table");
+	div.appendChild(table);
 	
+	tr = table.insertRow(0);
+	tr.className = "header";
+	tr.insertCell(0).innerHTML = "Фамилия";
+	tr.insertCell(1).innerHTML = "Имя";
+	tr.insertCell(2).innerHTML = "Отчество";
+	tr.insertCell(3).innerHTML = "Дата рождения";
+	tr.insertCell(4).innerHTML = "Серия ВУ";
+	tr.insertCell(5).innerHTML = "Номер ВУ";
+	
+	for(let i = 0; i < result.length; i++) {
+		insertRow(table, result[i], i);
+	}
 }
 
 function insertRow(table, row, rowNumber) {
@@ -95,17 +103,17 @@ function insertRow(table, row, rowNumber) {
 	tr.insertCell(0).innerHTML = row.surname;
 	tr.insertCell(1).innerHTML = row.name;
 	tr.insertCell(2).innerHTML = row.patronymic;
-	tr.insertCell(3).innerHTML = dateParser(row.birthDate);
+	tr.insertCell(3).innerHTML = parseDate(row.birthDate);
 	tr.insertCell(4).innerHTML = row.document.serial;
 	tr.insertCell(5).innerHTML = row.document.number;
 }
 
 function getInurantId() {
-	var oldId = null;
+	let oldId = null;
 	if(insurantIdForClick !== null)
 		oldId = insurantIdForClick;
 	
-	insurantIdForClick = this.id;
+	insurantIdForClick = this.id;//убрать
 	
 	changeBackground(oldId);
 	document.getElementById("select").hidden = false;
@@ -119,7 +127,7 @@ function changeBackground(oldId) {
 }
 
 function selectInsurant() {
-	var insurantName = new String();
+	let insurantName = new String();
 	insurantId = insurantIdForClick;
 	for(i = 0; i < 3; i++) {
 		insurantName += document.getElementById(insurantId).childNodes[i].innerHTML + " ";
@@ -136,37 +144,26 @@ function newClient() {
 	location.href='#new_client';
 }
 
-function saveInsurant() {
-	
-	var sex;
-	
-	if(document.getElementById("sex").value === "Мужской")
-		sex = "M";
-	else
-		sex = "F";
-	
-	var doc = {
+function saveInsurant() {	
+	const doc = {
 			serial: document.getElementById("serial").value,
 			number: document.getElementById("number").value,
 			docType: "3",
 			dateOfIssue: document.getElementById("year").value
 	};
 	
-	var data = {
+	const data = {
 			id: 0,
 			surname: document.getElementById("surname").value.trim(),
 			name: document.getElementById("name").value.trim(),
 			patronymic: document.getElementById("patronymic").value.trim(),
 			birthDate: document.getElementById("birth").value,
-			sex: sex,
+			sex: document.getElementById("sex").value,
 			document: doc
 	};
 	
-	if(checkNewInsurant(data) === true) {
+	if(checkNewInsurant(data)) {
 		sendRequest("POST", "save-insurant", data, finishSaveInsurant);
-	}
-	else {
-		return;
 	}
 }
 
@@ -187,7 +184,7 @@ function checkNewInsurant(data) {
 	else
 		document.getElementById("name").className = "";
 	
-	if(tryParseDate(data.birthDate) === false) {
+	if(checkIsValidDate(data.birthDate) === false) {
 		document.getElementById("birth").className = "error";
 		i++;
 	}
@@ -208,7 +205,7 @@ function checkNewInsurant(data) {
 	else
 		document.getElementById("number").className = "";
 	
-	if(tryParseDate(data.document.dateOfIssue) === false) {
+	if(checkIsValidDate(data.document.dateOfIssue) === false) {
 		document.getElementById("year").className = "error";
 		i++;
 	}
@@ -222,33 +219,36 @@ function checkNewInsurant(data) {
 }
 
 function finishSaveInsurant(id) {
-	insurantId = id;
-	
-	location.href='#close';
-	document.getElementById("client_name").value = document.getElementById("surname").value + " " +
-												   document.getElementById("name").value + " " +
-												   document.getElementById("patronymic").value.trim();
-	
-	document.getElementById("license_series").value = document.getElementById("serial").value;
-	document.getElementById("license_number").value = document.getElementById("number").value;
-	
-	alert("Данные сохранены!");
+	if(id !== undefined) {
+		insurantId = id;
+		
+		location.href='#close';
+		document.getElementById("client_name").value = document.getElementById("surname").value + " " +
+													   document.getElementById("name").value + " " +
+													   document.getElementById("patronymic").value.trim();
+		document.getElementById("license_series").value = document.getElementById("serial").value;
+		document.getElementById("license_number").value = document.getElementById("number").value;
+		
+		alert("Данные сохранены!");
+	}
+	else
+		alert("Ошибка при сохранении!");
 }
 
 function findBrands() {
-	var params = "?brand=" + document.getElementById("brand_name").value;
+	const params = "?brand=" + encodeURIComponent(document.getElementById("brand_name").value);
 	
 	sendRequest("GET", "get-brands", params, setBrandList);
 }
 
 function setBrandList(data) {
-	var list = document.getElementById("brandList");
+	let list = document.getElementById("brandList");
 	
 	while (list.firstChild)
 		list.removeChild(list.firstChild);
 	
-	for(i = 0; i < data.length; i++) {
-		var option = document.createElement("option");
+	for(let i = 0; i < data.length; i++) {
+		let option = document.createElement("option");
 		option.id = data[i].BRAND_ID;
 		option.innerHTML = data[i].BRAND_NAME;
 		list.appendChild(option);
@@ -256,11 +256,11 @@ function setBrandList(data) {
 }
 
 function setBrandId() {
-	var list = document.getElementById("brandList");
-	var brandName = document.getElementById("brand_name").value;
-	
-	for(i = 0; i < list.childNodes.length; i++) {
-		var temp = list.childNodes[i].value;
+	let list = document.getElementById("brandList");
+	let brandName = document.getElementById("brand_name").value;
+
+	for(let i = 0; i < list.childNodes.length; i++) {
+		let temp = list.childNodes[i].value;
 		if(brandName === temp) {
 			brandId = list.childNodes[i].id;
 			findModels(brandId);
@@ -272,50 +272,45 @@ function setBrandId() {
 }
 
 function findModels(brandId) {
-	var params = "?brandId=" + brandId;
+	const params = "?brandId=" + brandId;
 	
 	sendRequest("GET", "get-models", params, setModelList);
 }
 
 function setModelList(data) {
-	var list = document.getElementById("model_name");
+	let list = document.getElementById("model_name");
 	
 	while (list.firstChild)
 		list.removeChild(list.firstChild);
 	
-	for(i = 0; i < data.length; i++) {
-		var option = document.createElement("option");
-		option.id = data[i].MODEL_ID;
+	for(let i = 0; i < data.length; i++) {
+		let option = document.createElement("option");
+		option.value = data[i].MODEL_ID;
 		option.innerHTML = data[i].MODEL_NAME;
 		list.appendChild(option);
+		
+		if(list.name === data[i].MODEL_NAME)
+			list.selectedIndex = i;
 	}
 }
 
-function checkFields() {
-	
-	if(insurantId === null || brandId === null || 
-	   document.getElementById("power").value === null || document.getElementById("year_of_issue").value === null || !checkVin())
-		
-		return false;
-	
-	else 
-		return true;
+function checkFields() {	
+	return !(((insurantId === null || brandId === null) && policyId === null) || 
+			   document.getElementById("power").value === "" || document.getElementById("year_of_issue").value === "" || !checkVin());
 	
 }
 
 function savePolicy() {
-	
-	if(checkFields() === true) {
-		
-		var button = document.getElementById("issue_policy");
+	if(checkFields()) {
+		let button = document.getElementById("issue_policy");
 		if(button !== null)
 			button.parentNode.removeChild(button);
 		
-		var policy = {
+		let policy = {
 				policyId: policyId,
 				insurantId: insurantId,
 				brandId: brandId,
-				modelName: document.getElementById("model_name").value,
+				modelId: document.getElementById("model_name").value,
 				yearOfIssue: document.getElementById("year_of_issue").value,
 				vin: document.getElementById("vin").value,
 				registerSign: document.getElementById("car_number").value,
@@ -341,12 +336,12 @@ function finishSavePolicy(coefficents) {
 		document.getElementById("period").innerHTML = coefficents.period;
 		document.getElementById("driver_lim").innerHTML = coefficents.driverLimit;
 		document.getElementById("territory").innerHTML = coefficents.territory;
-		document.getElementById("premium").innerHTML = "Премия: " + coefficents.premium;
+		document.getElementById("premium").innerHTML = "Премия: " + coefficents.premium.toFixed(2);
 		
 		policyId = coefficents.policyId;
 		
-		var button = document.createElement("button");
-		var div = document.getElementById("control_buttons");
+		let button = document.createElement("button");
+		let div = document.getElementById("control_buttons");
 		
 		button.id = "issue_policy";
 		button.onclick = issuePolicy;
@@ -361,17 +356,15 @@ function finishSavePolicy(coefficents) {
 }
 
 function issuePolicy() {
-	if(checkFields() === true) {
+	if(checkFields()) {
 		sendRequest("POST", "issue-policy", policyId, hideItems);
-		
-		alert("Полис оформлен!");
 	}
 	else
 		alert("Заполите, пожалуйста, все поля!");
 }
 
 function hideItems() {
-	var button = document.getElementById("issue_policy");
+	let button = document.getElementById("issue_policy");
 	button.parentNode.removeChild(button);
 	
 	document.getElementById("search_client").disabled = "disabled";
@@ -382,4 +375,6 @@ function hideItems() {
 	document.getElementById("car_number").disabled = "disabled";
 	document.getElementById("power").disabled = "disabled";
 	document.getElementById("save_policy").disabled = "disabled";
+	
+	alert("Полис оформлен!");
 }
