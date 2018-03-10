@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
-		
 	<http use-expressions="true">
 		<intercept-url pattern="/menu" access="isAuthenticated()"/>
 		<intercept-url pattern="/get-policies" access="isAuthenticated()"/>
@@ -13,16 +12,14 @@
 		<intercept-url pattern="/new-policy" access="isAuthenticated()"/>
 		<intercept-url pattern="/save-insurant" access="isAuthenticated()"/>
 		<intercept-url pattern="/save-policy" access="isAuthenticated()"/>
+		<intercept-url pattern="/open" access="isAuthenticated()"/>
 
-		
-		
 		<form-login login-page="/login"
 			default-target-url="/menu"
 			authentication-failure-url="/login?error=true"
 			username-parameter="user"
 			password-parameter="password"/>
-			
-			
+				
 		<logout logout-success-url="/login" />
 		<csrf disabled="false"/>
 		<remember-me remember-me-parameter="remember_me" />
