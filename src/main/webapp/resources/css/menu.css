@@ -46,7 +46,7 @@ h3 {
 }
 .main_input
 {
-	float:left;
+	float: left;
 	padding-left: 19%;
 	padding-top: 1%;
 }
@@ -60,7 +60,6 @@ h3 {
 .show_result table
 {
 	border-collapse: collapse;
-    border: 2px double black;
     width: 85%;
 }
 
@@ -70,6 +69,19 @@ h3 {
 	white-space: pre-line;
 	border: 2px double black;
 	text-align: center;
+	font-family: 'Open Sans';
+}
+
+.link
+{
+	background: #ffffff;
+	color: #000000;
+	text-decoration: none;
+}
+
+.link:hover
+{
+	text-decoration: underline;
 }
 
 #from_date
