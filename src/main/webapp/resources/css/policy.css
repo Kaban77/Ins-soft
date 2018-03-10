@@ -225,9 +225,21 @@ button
 	padding: 40px 10px;
 }
 
+.premium
+{
+	clear: both;
+	font-weight: bold;
+}
+
 .error
 {
 	border-color: red;
+}
+
+#img_find
+{
+	width: 18px;
+	height: 18px;
 }
 
 #control_buttons
