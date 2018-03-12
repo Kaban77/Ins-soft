@@ -15,12 +15,12 @@ function sendRequest(method, controller, data, callback) { //отправка з
 	}
 	request.setRequestHeader("content-type", "application/json");
 	request.contentType = "application/json";
-    request.setRequestHeader("cache-control", "no-cache");
+    	request.setRequestHeader("cache-control", "no-cache");
     
 	if (data !== null && method !== "GET")
-        request.send(JSON.stringify(data));        
-    else
-        request.send();
+        	request.send(JSON.stringify(data));        
+    	else
+        	request.send();
 		
 	request.onreadystatechange = () => {
         if (request.readyState !== 4)
