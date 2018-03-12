@@ -42,6 +42,6 @@ function showResult(result) {
 			tr.insertCell(3).innerHTML = result[i].car;
 			tr.insertCell(4).innerHTML = result[i].insurantName;
 		}
-	document.body.appendChild(div);
+		document.body.appendChild(div);
 	}
 }
