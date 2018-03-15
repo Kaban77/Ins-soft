@@ -21,10 +21,10 @@ public class CoeffCalculator {
 		this.jdbctemplate = jdbctemplate;
 	}
 
-	public Coefficients calcPremium(PolicyToDB policy) {
+	public Coefficients calcPremium(Policy policy) {
 		Coefficients coeff = new Coefficients();
 
-		coeff.setAgeAndExperience(calcAgeAndExperience(policy.getInsurantId()));
+		coeff.setAgeAndExperience(calcAgeAndExperience(policy.getInsurant().getId()));
 		coeff.setBonus(calcBonus());
 		coeff.setDriverLimit(calcDriverLimit());
 		coeff.setPeriod(calcPeriod());
@@ -33,7 +33,6 @@ public class CoeffCalculator {
 		coeff.setTariff(calcTariff(policy.getModelId()));
 		coeff.setTerritory(calcTerritory());
 		coeff.setPremium();
-		coeff.setPolicyId(policy.getPolicyId());
 
 		return coeff;
 	}
@@ -56,7 +55,7 @@ public class CoeffCalculator {
 	}
 
 	private double calcBonus(/* int InsurantId */) {
-		//
+		// TODO
 		return 1.0;
 	}
 
@@ -74,6 +73,7 @@ public class CoeffCalculator {
 	}
 
 	private double calcSeason(/* String beginDate, String endDate */) {
+		// TODO
 		return 1.0;
 	}
 
@@ -98,14 +98,17 @@ public class CoeffCalculator {
 	}
 
 	private double calcPeriod(/* String beginDate, String endDate */) {
+		// TODO
 		return 1.0;
 	}
 
 	private double calcDriverLimit() {
+		// TODO
 		return 1.0;
 	}
 
 	private double calcTerritory(/* int insurantId */) {
+		// TODO
 		return 2.0;
 	}
 }
