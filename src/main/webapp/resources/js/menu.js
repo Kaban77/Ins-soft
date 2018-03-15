@@ -23,7 +23,6 @@ function showResult(result) {
 		div.id = "show";
 		div.innerHTML = "<h3>Результаты поиска:</h3>";
 		let table = document.createElement('table');
-		div.appendChild(table);
 		
 		tr = table.insertRow(0);
 		tr.insertCell(0).innerHTML = "№ п/п";
@@ -34,14 +33,16 @@ function showResult(result) {
 		for(let i = 0; i < result.length; i++) {
 			let tr = table.insertRow(i + 1);
 			let link = "<a class='link' onclick='window.open(this.href); return(false);' href=open?policyId=" + 
-			           result[i].policyId + ">" + result[i].policyNumber + "</a>";
+			           result[i].policyId + ">" + result[i].policyNumber + "</a>" + "<div class='policy_state'>" + 
+			           ucFirst(result[i].policyState) + "</div>";
 			
 			tr.insertCell(0).innerHTML = i + 1;
 			tr.insertCell(1).innerHTML = link;
 			tr.insertCell(2).innerHTML = parseDate(result[i].beginDate) + " - " + parseDate(result[i].endDate);
 			tr.insertCell(3).innerHTML = result[i].car;
-			tr.insertCell(4).innerHTML = result[i].insurantName;
+			tr.insertCell(4).innerHTML = result[i].insutantFullName;
 		}
+		div.appendChild(table);
 		document.body.appendChild(div);
 	}
 }
