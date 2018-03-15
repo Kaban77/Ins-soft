@@ -20,9 +20,7 @@ import ru.demidov.insSoft.interfaces.PolicyDao;
 import ru.demidov.insSoft.objects.Coefficients;
 import ru.demidov.insSoft.objects.Policy;
 import ru.demidov.insSoft.objects.PolicyForSearch;
-import ru.demidov.insSoft.objects.PolicyFromDB;
 import ru.demidov.insSoft.objects.PolicyStates;
-import ru.demidov.insSoft.objects.PolicyToDB;
 
 @Component
 public class PolicyDaoImpl implements PolicyDao {
