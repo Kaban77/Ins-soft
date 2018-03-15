@@ -1,30 +1,30 @@
 package ru.demidov.insSoft.objects;
 
 public class Policy {
+	private Integer policyId;
 	private String policyNumber;
-	private int policyId;
 	private String beginDate;
 	private String endDate;
-	private String car;
-	private int modelId;
-	private String insurantName;
-	private int insurantId;
-	private int policyState;
+	private String policyState;
+	private int policyStateId;
+	private Insurant insurant;
+	private String insutantFullName;
+	private Integer brandId;
+	private String brandName;
+	private Integer modelId;
+	private String modelName;
+	private int yearOfIssueCar;
+	private String vin;
+	private String registerSign;
+	private int enginePower;
+	private Coefficients coeff;
 
-	public int getPolicyId() {
+	public Integer getPolicyId() {
 		return policyId;
 	}
 
-	public void setPolicyId(int policyId) {
+	public void setPolicyId(Integer policyId) {
 		this.policyId = policyId;
-	}
-
-	public int getInsurantId() {
-		return insurantId;
-	}
-
-	public void setInsurantId(int insurantId) {
-		this.insurantId = insurantId;
 	}
 
 	public String getPolicyNumber() {
@@ -51,36 +51,108 @@ public class Policy {
 		this.endDate = endDate;
 	}
 
-	public String getCar() {
-		return car;
-	}
-
-	public void setCar(String car) {
-		this.car = car;
-	}
-
-	public String getInsurantName() {
-		return insurantName;
-	}
-
-	public void setInsurantName(String insurantName) {
-		this.insurantName = insurantName;
-	}
-
-	public int getPolicyState() {
+	public String getPolicyState() {
 		return policyState;
 	}
 
-	public void setPolicyState(int policyState) {
+	public void setPolicyState(String policyState) {
 		this.policyState = policyState;
 	}
 
-	public int getModelId() {
+	public int getPolicyStateId() {
+		return policyStateId;
+	}
+
+	public void setPolicyStateId(int policyStateId) {
+		this.policyStateId = policyStateId;
+	}
+
+	public Insurant getInsurant() {
+		return insurant;
+	}
+
+	public void setInsurant(Insurant insurant) {
+		this.insurant = insurant;
+	}
+
+	public Integer getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Integer brandId) {
+		this.brandId = brandId;
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public Integer getModelId() {
 		return modelId;
 	}
 
-	public void setModelId(int modelId) {
+	public void setModelId(Integer modelId) {
 		this.modelId = modelId;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public int getYearOfIssueCar() {
+		return yearOfIssueCar;
+	}
+
+	public void setYearOfIssueCar(int yearOfIssueCar) {
+		this.yearOfIssueCar = yearOfIssueCar;
+	}
+
+	public String getVin() {
+		return vin;
+	}
+
+	public void setVin(String vin) {
+		this.vin = vin;
+	}
+
+	public String getRegisterSign() {
+		return registerSign;
+	}
+
+	public void setRegisterSign(String registerSign) {
+		this.registerSign = registerSign;
+	}
+
+	public int getEnginePower() {
+		return enginePower;
+	}
+
+	public void setEnginePower(int enginePower) {
+		this.enginePower = enginePower;
+	}
+
+	public Coefficients getCoeff() {
+		return coeff;
+	}
+
+	public void setCoeff(Coefficients coeff) {
+		this.coeff = coeff;
+	}
+
+	public String getInsutantFullName() {
+		return insutantFullName;
+	}
+
+	public void setInsutantFullName(String insutantFullName) {
+		this.insutantFullName = insutantFullName;
 	}
 
 }
