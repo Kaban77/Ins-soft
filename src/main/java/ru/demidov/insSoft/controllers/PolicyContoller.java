@@ -55,7 +55,7 @@ public class PolicyContoller {
 
 	@RequestMapping(value = "/open", method = RequestMethod.GET)
 	public String openPolicy(@RequestParam(value = "policyId", required = true) Integer policyId, ModelMap model) {
-		PolicyFromDB policy = policyManager.findPoliciesById(policyId);
+		Policy policy = policyManager.findPoliciesById(policyId);
 		model.addAttribute("policy", policy);
 
 		String disabled = "";
@@ -68,7 +68,7 @@ public class PolicyContoller {
 
 	@RequestMapping(value = "/save-policy", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
-	public Coefficients savePolicy(@RequestBody PolicyToDB policy) {
+	public Policy savePolicy(@RequestBody Policy policy) {
 		if (policy.getPolicyId() == null)
 			return policyManager.insertPolicy(policy);
 		else
