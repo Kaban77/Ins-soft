@@ -25,11 +25,11 @@
 		</div>
 		<div class="field">
 			<label for="license_series">Серия ВУ</label>
-			<input type="text" id="license_series" maxlength="4" disabled="disabled" value="${ policy.licenseSerial}">
+			<input type="text" id="license_series" maxlength="4" disabled="disabled" value="${ policy.insurant.document.serial }">
 		</div>
 		<div class="field">
 			<label for="license_number">Номер ВУ</label>
-			<input type="text" id="license_number" maxlength="6" disabled="disabled" value="${ policy.licenseNumber}">
+			<input type="text" id="license_number" maxlength="6" disabled="disabled" value="${ policy.insurant.document.number}">
 		</div>
 	</div>
 	
