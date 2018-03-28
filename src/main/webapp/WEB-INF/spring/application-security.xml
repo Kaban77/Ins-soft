@@ -27,8 +27,13 @@
 	
 	<authentication-manager>
 		<authentication-provider>
+			<password-encoder ref="bcript"/>
 			<jdbc-user-service data-source-ref="dataSourse" />
 		</authentication-provider>	
 	</authentication-manager>
+	
+	<beans:bean id="bcript" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg name="strength" value="12"/>
+	</beans:bean>
 	
 </beans:beans>
