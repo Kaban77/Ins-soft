@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.policy;
 
 public class PolicyForSearch {
 
@@ -37,6 +37,11 @@ public class PolicyForSearch {
 
 	public void setEndPeriod(String endPeriod) {
 		this.endPeriod = endPeriod;
+	}
+
+	@Override
+	public String toString() {
+		return "PolicyForSearch [policyNumber=" + policyNumber + ", startPeriod=" + startPeriod + ", endPeriod=" + endPeriod + "]";
 	}
 
 }

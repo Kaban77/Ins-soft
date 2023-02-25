@@ -1,4 +1,7 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.policy;
+
+import ru.demidov.insSoft.objects.Coefficients;
+import ru.demidov.insSoft.objects.Insurant;
 
 public class Policy {
 	private Integer policyId;
@@ -153,6 +156,15 @@ public class Policy {
 
 	public void setInsutantFullName(String insutantFullName) {
 		this.insutantFullName = insutantFullName;
+	}
+
+	@Override
+	public String toString() {
+		return "Policy [policyId=" + policyId + ", policyNumber=" + policyNumber + ", beginDate=" + beginDate + ", endDate=" + endDate
+				+ ", policyState=" + policyState + ", policyStateId=" + policyStateId + ", insurant=" + insurant + ", insutantFullName="
+				+ insutantFullName + ", brandId=" + brandId + ", brandName=" + brandName + ", modelId=" + modelId + ", modelName="
+				+ modelName + ", yearOfIssueCar=" + yearOfIssueCar + ", vin=" + vin + ", registerSign=" + registerSign + ", enginePower="
+				+ enginePower + ", coeff=" + coeff + "]";
 	}
 
 }

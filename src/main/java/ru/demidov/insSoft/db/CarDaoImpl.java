@@ -11,10 +11,8 @@ import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import ru.demidov.insSoft.interfaces.CarDao;
-
 @Component
-public class CarDaoImpl implements CarDao {
+public class CarDaoImpl {
 
 	@Autowired
 	private JdbcTemplate jdbctemplate;
@@ -24,7 +22,6 @@ public class CarDaoImpl implements CarDao {
 
 	private static final Logger logger = LoggerFactory.getLogger(CarDaoImpl.class);
 
-	@Override
 	public List<Map<String, Object>> findBrands(String brandName) {
 		try {
 			return jdbctemplate.query(getBrands, new Object[] { "%" + brandName.toUpperCase().trim() + "%" }, new ColumnMapRowMapper());
@@ -34,7 +31,6 @@ public class CarDaoImpl implements CarDao {
 		}
 	}
 
-	@Override
 	public List<Map<String, Object>> findModels(Integer brandId) {
 		try {
 			return jdbctemplate.query(getModels, new Object[] { brandId }, new ColumnMapRowMapper());

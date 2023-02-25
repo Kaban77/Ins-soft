@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.db;
+package ru.demidov.insSoft.policy.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,14 +16,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.demidov.insSoft.interfaces.PolicyDao;
+import ru.demidov.insSoft.db.CoeffCalculator;
 import ru.demidov.insSoft.objects.Coefficients;
-import ru.demidov.insSoft.objects.Policy;
-import ru.demidov.insSoft.objects.PolicyForSearch;
-import ru.demidov.insSoft.objects.PolicyStates;
+import ru.demidov.insSoft.objects.Document;
+import ru.demidov.insSoft.objects.Insurant;
+import ru.demidov.insSoft.policy.Policy;
+import ru.demidov.insSoft.policy.PolicyForSearch;
+import ru.demidov.insSoft.policy.PolicyStates;
+
 
 @Component
-public class PolicyDaoImpl implements PolicyDao {
+public class PolicyDaoImpl {
 
 	@Autowired
 	private JdbcTemplate jdbctemplate;
@@ -40,7 +43,6 @@ public class PolicyDaoImpl implements PolicyDao {
 	private static final String updatePremium = "update policies.t_policy set premium = :premium where policy_id = :policyId";
 	private static final String updateState = "update policies.t_policy set state = :state where policy_id = :policyId";
 
-	@Override
 	@Transactional(readOnly = true)
 	public Policy findPoliciesById(Integer policyId) {
 		try {
@@ -51,7 +53,6 @@ public class PolicyDaoImpl implements PolicyDao {
 		}
 	}
 
-	@Override
 	@Transactional(readOnly = true)
 	public List<Policy> findPoliciesByParam(PolicyForSearch policy) {
 
@@ -77,7 +78,6 @@ public class PolicyDaoImpl implements PolicyDao {
 		}
 	}
 
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Policy insertPolicy(Policy policy) {
 		try {
@@ -100,11 +100,10 @@ public class PolicyDaoImpl implements PolicyDao {
 		}
 	}
 
-	@Override
 	@Transactional
 	public Policy updatePolicy(Policy policy) {
 		try {
-			if (policy.getInsurant().getId() != null) {
+			if (policy.getInsurant().getId() != 0) {
 				String updateInsurant = "update policies.t_policy set insurant_id = :insurantId where policy_id = :policyId";
 				jdbctemplate.update(updateInsurant, new Object[] { policy.getInsurant().getId(), policy.getPolicyId() });
 			} else {
@@ -115,7 +114,8 @@ public class PolicyDaoImpl implements PolicyDao {
 				insurant.setId(insurantId);
 				policy.setInsurant(insurant);
 			}
-			jdbctemplate.update(updateCar, new Object[] { policy.getModelId(), policy.getYearOfIssue(), policy.getVin(), policy.getRegisterSign(), policy.getEnginePower(), policy.getPolicyId() });
+			jdbctemplate.update(updateCar, new Object[] { policy.getModelId(), policy.getYearOfIssueCar(), policy.getVin(),
+					policy.getRegisterSign(), policy.getEnginePower(), policy.getPolicyId() });
 
 			Coefficients coeff = new CoeffCalculator(jdbctemplate).calcPremium(policy);
 
@@ -123,14 +123,13 @@ public class PolicyDaoImpl implements PolicyDao {
 					coeff.getDriverLimit(), coeff.getTerritory(), policy.getPolicyId() });
 			jdbctemplate.update(updatePremium, new Object[] { coeff.getPremium(), policy.getPolicyId() });
 
-			return coeff;
+			return policy;
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			return new Policy();
 		}
 	}
 
-	@Override
 	@Transactional
 	public boolean issuePolicy(int policyID) {
 		return changeState(policyID, PolicyStates.REGISTERED);
@@ -228,4 +227,5 @@ public class PolicyDaoImpl implements PolicyDao {
 			return coeff;
 		}
 	}
+
 }

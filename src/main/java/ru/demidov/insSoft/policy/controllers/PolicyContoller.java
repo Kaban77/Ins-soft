@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.controllers;
+package ru.demidov.insSoft.policy.controllers;
 
 import java.util.List;
 
@@ -13,13 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ru.demidov.insSoft.db.PolicyDaoImpl;
-import ru.demidov.insSoft.objects.Coefficients;
-import ru.demidov.insSoft.objects.Policy;
-import ru.demidov.insSoft.objects.PolicyForSearch;
-import ru.demidov.insSoft.objects.PolicyFromDB;
-import ru.demidov.insSoft.objects.PolicyStates;
-import ru.demidov.insSoft.objects.PolicyToDB;
+import ru.demidov.insSoft.policy.Policy;
+import ru.demidov.insSoft.policy.PolicyForSearch;
+import ru.demidov.insSoft.policy.PolicyStates;
+import ru.demidov.insSoft.policy.dao.PolicyDaoImpl;
 
 @Controller
 public class PolicyContoller {
@@ -42,10 +39,11 @@ public class PolicyContoller {
 
 	@RequestMapping(value = "/issue-policy", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> issuePolicy(@RequestBody Integer policyId) {
-		if (policyManager.issuePolicy(policyId))
+		if (policyManager.issuePolicy(policyId)) {
 			return new ResponseEntity<String>(HttpStatus.OK);
-		else
+		} else {
 			return new ResponseEntity<String>("Error in issue-policy. Check log for more information", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(value = "/new-policy", method = RequestMethod.GET)
@@ -59,8 +57,9 @@ public class PolicyContoller {
 		model.addAttribute("policy", policy);
 
 		String disabled = "";
-		if (policy.getPolicyState() != PolicyStates.PROJECT.getState())
+		if (policy.getPolicyStateId() != PolicyStates.PROJECT.getState()) {
 			disabled = "disabled";
+		}
 		model.addAttribute("disabled", disabled);
 
 		return "policy";
@@ -69,10 +68,11 @@ public class PolicyContoller {
 	@RequestMapping(value = "/save-policy", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public Policy savePolicy(@RequestBody Policy policy) {
-		if (policy.getPolicyId() == null)
+		if (policy.getPolicyId() == null) {
 			return policyManager.insertPolicy(policy);
-		else
+		} else {
 			return policyManager.updatePolicy(policy);
+		}
 	}
 
 }

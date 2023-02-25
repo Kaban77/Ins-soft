@@ -15,14 +15,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import ru.demidov.insSoft.interfaces.InsurantDao;
 import ru.demidov.insSoft.objects.Document;
 import ru.demidov.insSoft.objects.Insurant;
 
 @Component
-public class InsurantDaoImpl implements InsurantDao {
+public class InsurantDaoImpl {
 
 	@Autowired
 	private JdbcTemplate jdbctemplate;
@@ -35,7 +33,6 @@ public class InsurantDaoImpl implements InsurantDao {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsurantDaoImpl.class);
 
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer createDocument(Document document, int insurantId) {
 		try {
@@ -50,7 +47,6 @@ public class InsurantDaoImpl implements InsurantDao {
 		}
 	}
 
-	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer createInsurant(Insurant insurant) {
 		try {
@@ -66,7 +62,6 @@ public class InsurantDaoImpl implements InsurantDao {
 		}
 	}
 
-	@Override
 	@Transactional(readOnly = true)
 	public List<Insurant> findInsurants(Insurant insurant) {
 		String sql = "select * from policies.v_insurant_info where upper(name) like :name and upper(patronymic) like :patronymic and upper(surname) like :surname and doc_type = 3";
@@ -119,5 +114,6 @@ public class InsurantDaoImpl implements InsurantDao {
 			insurant.setSex(rs.getString("sex"));
 			return insurant;
 		}
+
 	}
 }
