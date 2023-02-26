@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.demidov.insSoft.db.CoeffCalculator;
-import ru.demidov.insSoft.objects.Coefficients;
-import ru.demidov.insSoft.objects.Document;
-import ru.demidov.insSoft.objects.Insurant;
+import ru.demidov.insSoft.coefficients.CoeffCalculator;
+import ru.demidov.insSoft.coefficients.Coefficients;
+import ru.demidov.insSoft.documents.Document;
+import ru.demidov.insSoft.insurant.Insurant;
 import ru.demidov.insSoft.policy.Policy;
 import ru.demidov.insSoft.policy.PolicyForSearch;
 import ru.demidov.insSoft.policy.PolicyStates;

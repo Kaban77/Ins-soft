@@ -1,4 +1,6 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.insurant;
+
+import ru.demidov.insSoft.documents.Document;
 
 public class Insurant {
 	private int id;

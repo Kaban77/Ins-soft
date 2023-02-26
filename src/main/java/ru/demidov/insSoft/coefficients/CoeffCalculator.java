@@ -1,10 +1,9 @@
-package ru.demidov.insSoft.db;
+package ru.demidov.insSoft.coefficients;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import ru.demidov.insSoft.objects.Coefficients;
 import ru.demidov.insSoft.policy.Policy;
 
 public class CoeffCalculator {

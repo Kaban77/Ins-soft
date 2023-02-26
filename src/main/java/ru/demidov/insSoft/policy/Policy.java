@@ -1,7 +1,7 @@
 package ru.demidov.insSoft.policy;
 
-import ru.demidov.insSoft.objects.Coefficients;
-import ru.demidov.insSoft.objects.Insurant;
+import ru.demidov.insSoft.coefficients.Coefficients;
+import ru.demidov.insSoft.insurant.Insurant;
 
 public class Policy {
 	private Integer policyId;

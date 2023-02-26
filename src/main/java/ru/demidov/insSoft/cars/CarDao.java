@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.db;
+package ru.demidov.insSoft.cars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CarDaoImpl {
+public class CarDao {
 
 	@Autowired
 	private JdbcTemplate jdbctemplate;
@@ -20,7 +20,7 @@ public class CarDaoImpl {
 	private static final String getBrands = "select brand_id, brand_name from policies.t_brand_directory where upper(brand_name) like :brandName";
 	private static final String getModels = "select model_id, model_name from policies.t_car_directory where brand_id = :brandId";
 
-	private static final Logger logger = LoggerFactory.getLogger(CarDaoImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(CarDao.class);
 
 	public List<Map<String, Object>> findBrands(String brandName) {
 		try {

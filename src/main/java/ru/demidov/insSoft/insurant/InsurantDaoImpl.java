@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.db;
+package ru.demidov.insSoft.insurant;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.demidov.insSoft.objects.Document;
-import ru.demidov.insSoft.objects.Insurant;
+import ru.demidov.insSoft.documents.Document;
 
 @Component
 public class InsurantDaoImpl {

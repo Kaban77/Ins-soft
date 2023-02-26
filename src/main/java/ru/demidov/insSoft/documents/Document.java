@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.documents;
 
 public class Document {
 

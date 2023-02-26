@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.controllers;
+package ru.demidov.insSoft.insurant.controllers;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ru.demidov.insSoft.db.InsurantDaoImpl;
-import ru.demidov.insSoft.objects.Insurant;
+import ru.demidov.insSoft.insurant.Insurant;
+import ru.demidov.insSoft.insurant.InsurantDaoImpl;
 
 @RestController
 public class InsurantController {

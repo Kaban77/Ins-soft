@@ -1,4 +1,4 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.coefficients;
 
 public class Coefficients {
 	private int policyId;
