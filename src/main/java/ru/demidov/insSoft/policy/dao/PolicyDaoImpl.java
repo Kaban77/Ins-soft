@@ -31,6 +31,8 @@ public class PolicyDaoImpl {
 	@Autowired
 	private JdbcTemplate jdbctemplate;
 
+	private final CoeffCalculator coeffCalculator;
+
 	private static final Logger logger = LoggerFactory.getLogger(PolicyDaoImpl.class);
 
 	private static final String getPolicyById = "select * from policies.v_policy_full where policy_id = :policyId";
@@ -42,6 +44,10 @@ public class PolicyDaoImpl {
 	private static final String updateCoeff = "update policies.t_policy_coefficients set tariff = :tariff, bonus = :bonus, power = :power, season = :season, age_and_experience = :ex, period = :period, driver_limit = :limit, territory = :territory where policy_id = :policyId";
 	private static final String updatePremium = "update policies.t_policy set premium = :premium where policy_id = :policyId";
 	private static final String updateState = "update policies.t_policy set state = :state where policy_id = :policyId";
+
+	public PolicyDaoImpl(CoeffCalculator coeffCalculator) {
+		this.coeffCalculator = coeffCalculator;
+	}
 
 	@Transactional(readOnly = true)
 	public Policy findPoliciesById(Integer policyId) {
@@ -84,7 +90,7 @@ public class PolicyDaoImpl {
 			int policyId = jdbctemplate.queryForObject(getPolicyId, Integer.class);
 			policy.setPolicyId(policyId);
 
-			Coefficients coeff = new CoeffCalculator(jdbctemplate).calcPremium(policy);
+			Coefficients coeff = coeffCalculator.calcPremium(policy);
 
 			jdbctemplate.update(insertPolicy, new Object[] { policyId, "EEE" + policyId, policy.getInsurant().getId(), coeff.getPremium() });
 			jdbctemplate.update(insertCar, new Object[] { policyId, policy.getModelId(), policy.getYearOfIssueCar(), policy.getVin(), policy.getRegisterSign(), policy.getEnginePower() });
@@ -117,7 +123,7 @@ public class PolicyDaoImpl {
 			jdbctemplate.update(updateCar, new Object[] { policy.getModelId(), policy.getYearOfIssueCar(), policy.getVin(),
 					policy.getRegisterSign(), policy.getEnginePower(), policy.getPolicyId() });
 
-			Coefficients coeff = new CoeffCalculator(jdbctemplate).calcPremium(policy);
+			Coefficients coeff = coeffCalculator.calcPremium(policy);
 
 			jdbctemplate.update(updateCoeff, new Object[] { coeff.getTariff(), coeff.getBonus(), coeff.getPower(), coeff.getSeason(), coeff.getAgeAndExperience(), coeff.getPeriod(),
 					coeff.getDriverLimit(), coeff.getTerritory(), policy.getPolicyId() });
@@ -214,14 +220,14 @@ public class PolicyDaoImpl {
 		private Coefficients rowCoefficients(ResultSet rs) throws SQLException {
 			Coefficients coeff = new Coefficients();
 
-			coeff.setAgeAndExperience(rs.getDouble("age_and_experience"));
-			coeff.setBonus(rs.getDouble("bonus"));
-			coeff.setDriverLimit(rs.getDouble("driver_limit"));
-			coeff.setPeriod(rs.getDouble("period"));
-			coeff.setPower(rs.getDouble("power"));
-			coeff.setSeason(rs.getDouble("season"));
-			coeff.setTariff(rs.getInt("tariff"));
-			coeff.setTerritory(rs.getDouble("territory"));
+			coeff.setAgeAndExperience(rs.getBigDecimal("age_and_experience"));
+			coeff.setBonus(rs.getBigDecimal("bonus"));
+			coeff.setDriverLimit(rs.getBigDecimal("driver_limit"));
+			coeff.setPeriod(rs.getBigDecimal("period"));
+			coeff.setPower(rs.getBigDecimal("power"));
+			coeff.setSeason(rs.getBigDecimal("season"));
+			coeff.setTariff(rs.getBigDecimal("tariff"));
+			coeff.setTerritory(rs.getBigDecimal("territory"));
 			coeff.setPremium();
 
 			return coeff;

@@ -1,16 +1,19 @@
 package ru.demidov.insSoft.coefficients;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 public class Coefficients {
 	private int policyId;
-	private int tariff;
-	private double bonus;
-	private double power;
-	private double season;
-	private double ageAndExperience;
-	private double period;
-	private double driverLimit;
-	private double territory;
-	private double premium;
+	private BigDecimal tariff;
+	private BigDecimal bonus;
+	private BigDecimal power;
+	private BigDecimal season;
+	private BigDecimal ageAndExperience;
+	private BigDecimal period;
+	private BigDecimal driverLimit;
+	private BigDecimal territory;
+	private BigDecimal premium;
 
 	public int getPolicyId() {
 		return policyId;
@@ -20,76 +23,106 @@ public class Coefficients {
 		this.policyId = policyId;
 	}
 
-	public double getPremium() {
+	public BigDecimal getPremium() {
 		return premium;
 	}
 
 	public void setPremium() {
-		this.premium = tariff * bonus * power * season * ageAndExperience * period * driverLimit * territory;
+		this.premium = tariff.multiply(bonus).multiply(power).multiply(season).multiply(ageAndExperience).multiply(period)
+				.multiply(driverLimit).multiply(territory);
 	}
 
-	public int getTariff() {
+	public BigDecimal getTariff() {
 		return tariff;
 	}
 
-	public void setTariff(int tariff) {
+	public void setTariff(BigDecimal tariff) {
 		this.tariff = tariff;
 	}
 
-	public double getBonus() {
+	public BigDecimal getBonus() {
 		return bonus;
 	}
 
-	public void setBonus(double bonus) {
+	public void setBonus(BigDecimal bonus) {
 		this.bonus = bonus;
 	}
 
-	public double getPower() {
+	public BigDecimal getPower() {
 		return power;
 	}
 
-	public void setPower(double power) {
+	public void setPower(BigDecimal power) {
 		this.power = power;
 	}
 
-	public double getSeason() {
+	public BigDecimal getSeason() {
 		return season;
 	}
 
-	public void setSeason(double season) {
+	public void setSeason(BigDecimal season) {
 		this.season = season;
 	}
 
-	public double getAgeAndExperience() {
+	public BigDecimal getAgeAndExperience() {
 		return ageAndExperience;
 	}
 
-	public void setAgeAndExperience(double ageAndExperience) {
+	public void setAgeAndExperience(BigDecimal ageAndExperience) {
 		this.ageAndExperience = ageAndExperience;
 	}
 
-	public double getPeriod() {
+	public BigDecimal getPeriod() {
 		return period;
 	}
 
-	public void setPeriod(double period) {
+	public void setPeriod(BigDecimal period) {
 		this.period = period;
 	}
 
-	public double getDriverLimit() {
+	public BigDecimal getDriverLimit() {
 		return driverLimit;
 	}
 
-	public void setDriverLimit(double driverLimit) {
+	public void setDriverLimit(BigDecimal driverLimit) {
 		this.driverLimit = driverLimit;
 	}
 
-	public double getTerritory() {
+	public BigDecimal getTerritory() {
 		return territory;
 	}
 
-	public void setTerritory(double territory) {
+	public void setTerritory(BigDecimal territory) {
 		this.territory = territory;
 	}
 
+	@Override
+	public String toString() {
+		return "Coefficients [policyId=" + policyId + ", tariff=" + tariff + ", bonus=" + bonus + ", power=" + power + ", season=" + season
+				+ ", ageAndExperience=" + ageAndExperience + ", period=" + period + ", driverLimit=" + driverLimit + ", territory="
+				+ territory + ", premium=" + premium + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ageAndExperience, bonus, driverLimit, period, policyId, power, premium, season, tariff, territory);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Coefficients other = (Coefficients) obj;
+		return Objects.equals(ageAndExperience, other.ageAndExperience) && Objects.equals(bonus, other.bonus)
+				&& Objects.equals(driverLimit, other.driverLimit) && Objects.equals(period, other.period) && policyId == other.policyId
+				&& Objects.equals(power, other.power) && Objects.equals(premium, other.premium) && Objects.equals(season, other.season)
+				&& tariff == other.tariff && Objects.equals(territory, other.territory);
+	}
 }

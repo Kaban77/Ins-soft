@@ -1,9 +1,12 @@
 package ru.demidov.insSoft.insurant;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import ru.demidov.insSoft.documents.Document;
 
 public class Insurant {
-	private int id;
+	private Integer id;
 	private String surname;
 	private String name;
 	private String patronymic;
@@ -19,6 +22,20 @@ public class Insurant {
 		this.name = name;
 		this.patronymic = patronymic;
 		this.birthDate = birthDate;
+	}
+
+	public Insurant(ResultSet rs, int rowNum) throws SQLException {
+		var document = new Document();
+		document.setSerial(rs.getString("doc_serial"));
+		document.setNumber(rs.getString("doc_number"));
+
+		setDocument(document);
+		setId(rs.getInt("insurant_id"));
+		setName(rs.getString("name"));
+		setPatronymic(rs.getString("patronymic"));
+		setSurname(rs.getString("surname"));
+		setBirthDate(rs.getDate("birth_date").toString());
+		setSex(rs.getString("sex"));
 	}
 
 	public String getSurname() {
@@ -53,11 +70,11 @@ public class Insurant {
 		this.birthDate = birthDate;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

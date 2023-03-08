@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ru.demidov.insSoft.insurant.Insurant;
-import ru.demidov.insSoft.insurant.InsurantDaoImpl;
+import ru.demidov.insSoft.insurant.InsurantManager;
 
 @RestController
 public class InsurantController {
 
-	private final InsurantDaoImpl insutantManager;
+	private final InsurantManager insutantManager;
 
 	// private static final Logger logger =
 	// LoggerFactory.getLogger(InsurantController.class);
 
-	public InsurantController(InsurantDaoImpl insutantManager) {
+	public InsurantController(InsurantManager insutantManager) {
 		this.insutantManager = insutantManager;
 	}
 
