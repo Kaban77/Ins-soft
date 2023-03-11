@@ -51,8 +51,8 @@ public class InsurantRepository {
 	}
 
 	public void insert(Insurant insurant) {
-		jdbctemplate.update(SQL_INSERT, new Object[] { insurant.getId(), insurant.getName(), insurant.getPatronymic(),
-				insurant.getSurname(), insurant.getBirthDate(), insurant.getSex() });
+		jdbctemplate.update(SQL_INSERT, insurant.getId(), insurant.getName(), insurant.getPatronymic(), insurant.getSurname(),
+				insurant.getBirthDate(), insurant.getSex());
 	}
 
 	private boolean tryParseDate(String date) {

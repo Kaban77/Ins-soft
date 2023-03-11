@@ -16,9 +16,6 @@ public class InsurantController {
 
 	private final InsurantManager insutantManager;
 
-	// private static final Logger logger =
-	// LoggerFactory.getLogger(InsurantController.class);
-
 	public InsurantController(InsurantManager insutantManager) {
 		this.insutantManager = insutantManager;
 	}
@@ -26,9 +23,7 @@ public class InsurantController {
 	@GetMapping(value = "/get-clients", produces = "application/json")
 	public List<Insurant> getClients(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "patronymic", required = false) String patronymic,
 			@RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "birthDate", required = false) String birthDate) {
-
 		Insurant insurant = new Insurant(surname, name, patronymic, birthDate);
-
 		return insutantManager.findInsurants(insurant);
 	}
 

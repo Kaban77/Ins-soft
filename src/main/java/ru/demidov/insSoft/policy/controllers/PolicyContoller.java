@@ -2,56 +2,64 @@ package ru.demidov.insSoft.policy.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.demidov.insSoft.policy.Policy;
 import ru.demidov.insSoft.policy.PolicyForSearch;
+import ru.demidov.insSoft.policy.PolicyManager;
 import ru.demidov.insSoft.policy.PolicyStates;
-import ru.demidov.insSoft.policy.dao.PolicyDaoImpl;
 
 @Controller
 public class PolicyContoller {
 
-	@Autowired
-	private PolicyDaoImpl policyManager;
+	private final PolicyManager policyManager;
 
-	// private static final Logger logger =
-	// LoggerFactory.getLogger(PolicyContoller.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PolicyContoller.class);
 
-	@RequestMapping(value = "/get-policies", method = RequestMethod.GET, produces = "application/json")
+	public PolicyContoller(PolicyManager policyManager) {
+		this.policyManager = policyManager;
+	}
+
+	@GetMapping(value = "/get-policies", produces = "application/json")
 	@ResponseBody
 	public List<Policy> getPolicies(@RequestParam(value = "dateFrom", required = false) String dateFrom, @RequestParam(value = "dateTo", required = false) String dateTo,
 			@RequestParam(value = "policyNumber", required = false) String policyNumber) {
-
-		PolicyForSearch policy = new PolicyForSearch(policyNumber, dateFrom, dateTo);
-
-		return policyManager.findPoliciesByParam(policy);
-	}
-
-	@RequestMapping(value = "/issue-policy", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> issuePolicy(@RequestBody Integer policyId) {
-		if (policyManager.issuePolicy(policyId)) {
-			return new ResponseEntity<String>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>("Error in issue-policy. Check log for more information", HttpStatus.BAD_REQUEST);
+		try {
+			var policy = new PolicyForSearch(policyNumber, dateFrom, dateTo);
+			return policyManager.findPoliciesByParam(policy);
+		} catch (Exception e) {
+			LOGGER.error("Error!", e);
+			throw new RuntimeException(e);
 		}
 	}
 
-	@RequestMapping(value = "/new-policy", method = RequestMethod.GET)
+	@PostMapping(value = "/issue-policy", consumes = "application/json")
+	public ResponseEntity<String> issuePolicy(@RequestBody Integer policyId) {
+		try {
+			policyManager.issuePolicy(policyId);
+
+			return ResponseEntity.ok("OK");
+		} catch (Exception e) {
+			LOGGER.error("Error: policyId = " + policyId, e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GetMapping(value = "/new-policy")
 	public String newPolicy() {
 		return "policy";
 	}
 
-	@RequestMapping(value = "/open", method = RequestMethod.GET)
+	@GetMapping(value = "/open")
 	public String openPolicy(@RequestParam(value = "policyId", required = true) Integer policyId, ModelMap model) {
 		Policy policy = policyManager.findPoliciesById(policyId);
 		model.addAttribute("policy", policy);
@@ -65,13 +73,18 @@ public class PolicyContoller {
 		return "policy";
 	}
 
-	@RequestMapping(value = "/save-policy", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@PostMapping(value = "/save-policy", produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public Policy savePolicy(@RequestBody Policy policy) {
-		if (policy.getPolicyId() == null) {
-			return policyManager.insertPolicy(policy);
-		} else {
-			return policyManager.updatePolicy(policy);
+		try {
+			if (policy.getPolicyId() == null) {
+				return policyManager.insertPolicy(policy);
+			} else {
+				return policyManager.updatePolicy(policy);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error!" + policy, e);
+			throw new RuntimeException(e);
 		}
 	}
 

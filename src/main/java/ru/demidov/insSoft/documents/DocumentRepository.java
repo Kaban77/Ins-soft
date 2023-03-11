@@ -24,11 +24,11 @@ public class DocumentRepository {
 	}
 
 	public void insert(Document document, int insurantId) {
-		jdbctemplate.update(SQL_INSERT, new Object[] { document.getId(), insurantId, document.getDocType(), document.getSerial(),
-				document.getNumber(), document.getDateOfIssue() });
+		jdbctemplate.update(SQL_INSERT, document.getId(), insurantId, document.getDocType(), document.getSerial(), document.getNumber(),
+				document.getDateOfIssue());
 	}
 
 	public void update(int insurantId, int docType) {
-		jdbctemplate.update(SQL_UPDATE, new Object[] { insurantId, docType });
+		jdbctemplate.update(SQL_UPDATE, insurantId, docType);
 	}
 }
