@@ -1,4 +1,11 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.policy;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import ru.demidov.insSoft.coefficients.Coefficients;
+import ru.demidov.insSoft.documents.Document;
+import ru.demidov.insSoft.insurant.Insurant;
 
 public class Policy {
 	private Integer policyId;
@@ -18,6 +25,59 @@ public class Policy {
 	private String registerSign;
 	private int enginePower;
 	private Coefficients coeff;
+
+	public Policy() {
+
+	}
+
+	public Policy(ResultSet rs, int rowNum) throws SQLException {
+		var document = new Document();
+
+		document.setDateOfIssue(rs.getDate("date_of_issue_doc").toString());
+		document.setId(rs.getInt("doc_id"));
+		document.setNumber(rs.getString("doc_number"));
+		document.setSerial(rs.getString("doc_serial"));
+
+		var insurant = new Insurant();
+
+		insurant.setDocument(document);
+		insurant.setBirthDate(rs.getDate("birth_date").toString());
+		insurant.setId(rs.getInt("insurant_id"));
+		insurant.setName(rs.getString("name"));
+		insurant.setPatronymic(rs.getString("patronymic"));
+		insurant.setSurname(rs.getString("surname"));
+		insurant.setSex(rs.getString("sex"));
+
+		Coefficients coeff = new Coefficients();
+
+		coeff.setAgeAndExperience(rs.getBigDecimal("age_and_experience"));
+		coeff.setBonus(rs.getBigDecimal("bonus"));
+		coeff.setDriverLimit(rs.getBigDecimal("driver_limit"));
+		coeff.setPeriod(rs.getBigDecimal("period"));
+		coeff.setPower(rs.getBigDecimal("power"));
+		coeff.setSeason(rs.getBigDecimal("season"));
+		coeff.setTariff(rs.getBigDecimal("tariff"));
+		coeff.setTerritory(rs.getBigDecimal("territory"));
+		coeff.setPremium();
+
+		setInsurant(insurant);
+		setCoeff(coeff);
+		setPolicyId(rs.getInt("policy_id"));
+		setPolicyNumber(rs.getString("policy_number"));
+		setPolicyState(rs.getString("state_name"));
+		setPolicyStateId(rs.getInt("state_id"));
+		setBeginDate(rs.getDate("begin_date").toString());
+		setEndDate(rs.getDate("end_date").toString());
+		setInsutantFullName(rs.getString("insurant_full_name"));
+		setBrandId(rs.getInt("brand_id"));
+		setBrandName(rs.getString("brand_name"));
+		setModelId(rs.getInt("model_id"));
+		setModelName(rs.getString("model_name"));
+		setEnginePower(rs.getInt("engine_power"));
+		setRegisterSign(rs.getString("register_sign"));
+		setVin(rs.getString("vin"));
+		setYearOfIssueCar(rs.getInt("year_of_issue"));
+	}
 
 	public Integer getPolicyId() {
 		return policyId;
@@ -153,6 +213,15 @@ public class Policy {
 
 	public void setInsutantFullName(String insutantFullName) {
 		this.insutantFullName = insutantFullName;
+	}
+
+	@Override
+	public String toString() {
+		return "Policy [policyId=" + policyId + ", policyNumber=" + policyNumber + ", beginDate=" + beginDate + ", endDate=" + endDate
+				+ ", policyState=" + policyState + ", policyStateId=" + policyStateId + ", insurant=" + insurant + ", insutantFullName="
+				+ insutantFullName + ", brandId=" + brandId + ", brandName=" + brandName + ", modelId=" + modelId + ", modelName="
+				+ modelName + ", yearOfIssueCar=" + yearOfIssueCar + ", vin=" + vin + ", registerSign=" + registerSign + ", enginePower="
+				+ enginePower + ", coeff=" + coeff + "]";
 	}
 
 }

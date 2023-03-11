@@ -1,12 +1,12 @@
-package ru.demidov.insSoft.objects;
+package ru.demidov.insSoft.policy;
 
 public enum PolicyStates {
 
 	PROJECT(0), REGISTERED(5), CANCELED(7), TERMINATION(10);
 
-	private int state;
+	private final int state;
 
-	PolicyStates(int state) {
+	private PolicyStates(int state) {
 		this.state = state;
 	}
 
