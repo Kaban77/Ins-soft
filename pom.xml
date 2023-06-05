@@ -9,12 +9,11 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>19</java-version>
-		<org.springframework-version>5.0.3.RELEASE</org.springframework-version>
-		<springboot.version>3.0.2</springboot.version>
-		<org.springframework-version>6.0.4</org.springframework-version>
-        <org.spring-security-version>6.0.1</org.spring-security-version>
-        <org.slf4j-version>2.0.6</org.slf4j-version>
-        <logback.version>1.4.5</logback.version>
+		<springboot.version>3.1.0</springboot.version>
+		<org.springframework-version>6.0.9</org.springframework-version>
+        <org.spring-security-version>6.1.0</org.spring-security-version>
+        <org.slf4j-version>2.0.7</org.slf4j-version>
+        <logback.version>1.4.7</logback.version>
 	</properties>
 	<dependencies>
 		<dependency>
